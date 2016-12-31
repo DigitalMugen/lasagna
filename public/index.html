@@ -3,20 +3,27 @@
   <head>
     <meta charset="utf-8">
     <title>Lasagna - Task Planning and Logging</title>
-    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <!--<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>-->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="import" href="bower_components/polymer/polymer.html">
-    <link rel="import" href="bower_components/paper-rating/paper-rating.html">
+    <!--<link rel="import" href="bower_components/polymer/polymer.html">-->
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/app.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-xs-12 col-lg-6">
-          <div class="panel panel-default">
+          <div class="panel panel-default c-app-daily-tasks">
             <div class="panel-heading">
-              <h2 class="panel-title">Today's Tasks</h2>
+              <h2 class="panel-title">Planned Tasks for <span class="js-selected-date"></span></h2>
             </div>
             <table class="table">
+              <colgroup>
+                <col class="c-app-daily-tasks__task-name-col">
+                <col class="c-app-daily-tasks__planned-intervals-col">
+                <col class="c-app-daily-tasks__interval-progress-col">
+                <col class="c-app-daily-tasks__actual-intervals-col">
+              </colgroup>
               <thead>
                 <tr>
                   <th>Task</th>
@@ -25,12 +32,6 @@
                   <th>Actual</th>
                 </tr>
               </thead>
-              <tfoot>
-                <tr>
-                  <td>Today's Productivity</td>
-                  <td colspan="3"><paper-rating rating="7" max="10"></paper-rating></td>
-                </tr>
-              </tfoot>
               <tbody>
                 <tr>
                   <th colspan="4">If I complete this one task, I'll feel I was productive:</th>
@@ -38,7 +39,8 @@
                 <tr>
                   <td><input class="form-control" type="text" placeholder="Task"></td>
                   <td><input class="form-control" type="number" placeholder="5"></td>
-                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td>
+                  </td>
                   <td><input class="form-control" type="number" placeholder=""></td>
                 </tr>
               </tbody>
@@ -49,13 +51,13 @@
                 <tr>
                   <td><input class="form-control" type="text" placeholder="Task"></td>
                   <td><input class="form-control" type="number" placeholder="5"></td>
-                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td></td>
                   <td><input class="form-control" type="number" placeholder=""></td>
                 </tr>
                 <tr>
                   <td><input class="form-control" type="text" placeholder="Task"></td>
                   <td><input class="form-control" type="number" placeholder="5"></td>
-                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td></td>
                   <td><input class="form-control" type="number" placeholder=""></td>
                 </tr>
               </tbody>
@@ -66,25 +68,33 @@
                 <tr>
                   <td><input class="form-control" type="text" placeholder="Task"></td>
                   <td><input class="form-control" type="number" placeholder="5"></td>
-                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td></td>
                   <td><input class="form-control" type="number" placeholder=""></td>
                 </tr>
                 <tr>
                   <td><input class="form-control" type="text" placeholder="Task"></td>
                   <td><input class="form-control" type="number" placeholder="5"></td>
-                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td></td>
                   <td><input class="form-control" type="number" placeholder=""></td>
                 </tr>
               </tbody>
             </table>
+            <div class="panel-footer">
+              <p>Today, I was this productive:</p>
+            </div>
           </div>
         </div>
         <div class="col-xs-12 col-lg-6">
-          <div class="panel panel-default">
+          <div class="panel panel-default c-app-daily-activity">
             <div class="panel-heading">
-              <h2 class="panel-title">Today's Activity</h2>
+              <h2 class="panel-title">Activity for <span class="js-selected-date"></span></h2>
             </div>
             <table class="table">
+              <colgroup>
+                <col class="c-app-daily-activity__start-time-col">
+                <col class="c-app-daily-activity__end-time-col">
+                <col class="c-app-daily-activity__task-name-col">
+              </colgroup>
               <thead>
                 <tr>
                   <th>Start</th>
@@ -92,7 +102,7 @@
                   <th>Task</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="c-app-daily-activity__log-table-body">
                 <tr>
                   <td><input class="form-control" type="time" placeholder="8:00 AM"></td>
                   <td><input class="form-control" type="time" placeholder="4:30 PM"></td>
@@ -101,7 +111,7 @@
               </tbody>
             </table>
             <div class="panel-footer">
-              <button class="btn btn-default pull-right">Add Activity</button>
+              <button class="btn btn-default pull-right" onclick="Lasagna.App.addDailyActivity()">Add Activity</button>
               <div class="clearfix"></div>
             </div>
           </div>

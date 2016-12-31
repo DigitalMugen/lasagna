@@ -1,0 +1,26 @@
+/**
+ * Lasagna core styling
+ *
+ * @copyright Bill Robitske, Jr. 2016
+ * @author Bill Robitske, Jr. <bill.robitske.jr@gmail.com>
+ * @license MIT
+ */
+
+.c-app-daily-tasks__task-name-col {
+  width: auto;
+}
+.c-app-daily-tasks__planned-intervals-col,
+.c-app-daily-tasks__actual-intervals-col {
+  width: 5em;
+}
+.c-app-daily-tasks__interval-progress-col {
+  width: 10em;
+}
+
+.c-app-daily-activity__start-time-col,
+.c-app-daily-activity__end-time-col {
+  width: 10em;
+}
+.c-app-daily-activity__task-name-col {
+  width: auto;
+}
