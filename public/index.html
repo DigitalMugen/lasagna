@@ -4,10 +4,109 @@
     <meta charset="utf-8">
     <title>Welcome to Firebase Hosting</title>
     <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="import" href="bower_components/polymer/polymer.html">
-    <link rel="import" href="src/my-app.html">
+    <link rel="import" href="bower_components/paper-rating/paper-rating.html">
   </head>
   <body>
-    <my-app>Testing...</my-app>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-lg-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Today's Tasks</h2>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Planned</th>
+                  <th>Progress</th>
+                  <th>Actual</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <td>Today's Productivity</td>
+                  <td colspan="3"><paper-rating rating="7" max="10"></paper-rating></td>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <th colspan="4">If I complete this one task, I'll feel I was productive:</th>
+                </tr>
+                <tr>
+                  <td><input class="form-control" type="text" placeholder="Task"></td>
+                  <td><input class="form-control" type="number" placeholder="5"></td>
+                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td><input class="form-control" type="number" placeholder=""></td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr>
+                  <th colspan="4">After I complete that task, I'll work on these:</th>
+                </tr>
+                <tr>
+                  <td><input class="form-control" type="text" placeholder="Task"></td>
+                  <td><input class="form-control" type="number" placeholder="5"></td>
+                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td><input class="form-control" type="number" placeholder=""></td>
+                </tr>
+                <tr>
+                  <td><input class="form-control" type="text" placeholder="Task"></td>
+                  <td><input class="form-control" type="number" placeholder="5"></td>
+                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td><input class="form-control" type="number" placeholder=""></td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr>
+                  <th colspan="4">If I complete those tasks, I'll try to accomplish these, too:</th>
+                </tr>
+                <tr>
+                  <td><input class="form-control" type="text" placeholder="Task"></td>
+                  <td><input class="form-control" type="number" placeholder="5"></td>
+                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td><input class="form-control" type="number" placeholder=""></td>
+                </tr>
+                <tr>
+                  <td><input class="form-control" type="text" placeholder="Task"></td>
+                  <td><input class="form-control" type="number" placeholder="5"></td>
+                  <td><paper-rating rating="2"></paper-rating></td>
+                  <td><input class="form-control" type="number" placeholder=""></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Today's Activity</h2>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>Task</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input class="form-control" type="time" placeholder="8:00 AM"></td>
+                  <td><input class="form-control" type="time" placeholder="4:30 PM"></td>
+                  <td><input class="form-control" type="text" placeholder="Thing I did"></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="panel-footer">
+              <button class="btn btn-default pull-right">Add Activity</button>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
