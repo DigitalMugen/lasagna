@@ -5,22 +5,58 @@
  * @author Bill Robitske, Jr. <bill.robitske.jr@gmail.com>
  * @license MIT
  */
+html, body {
+  font-family: sans-serif;
+  font-size: 1vw;
+  color: rgb(0, 0, 39);
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.c-app-layout__header {
+  display: block;
+  background: linear-gradient(rgb(87, 140, 169), rgb(0, 75, 141));
+  border-bottom: 1px solid rgb(0, 75, 141);
+  padding: 0.25rem 0.5rem;
+}
+.c-app-layout__body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.c-app-layout__body-column {
+  display: block;
+  width: 50%;
+  padding: 0.25rem 0.5rem;
+}
+.c-app-layout__footer {
+  display: block;
+}
 
-.c-app-daily-tasks__task-name-col {
-  width: auto;
+.c-app__title {
+  font-size: 2rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.618);
 }
-.c-app-daily-tasks__planned-intervals-col,
-.c-app-daily-tasks__actual-intervals-col {
-  width: 5em;
+.c-app__copyright-notice {
+  margin: 0.5rem 5rem;
+  border-top: 1px solid rgba(0, 75, 141, 0.382);
+  padding-top: 0.5rem;
+  text-align: center;
 }
-.c-app-daily-tasks__interval-progress-col {
-  width: 10em;
+.c-app__copyright-notice a {
+  color: inherit;
 }
 
-.c-app-daily-activity__start-time-col,
-.c-app-daily-activity__end-time-col {
-  width: 10em;
+.c-app-daily-tasks__summary {
+  text-align: center;
 }
-.c-app-daily-activity__task-name-col {
-  width: auto;
+
+.c-app-daily-activity table {
+  border-collapse: collapse;
+}
+.c-app-daily-activity__agenda-hour tr:first-child th,
+.c-app-daily-activity__agenda-hour tr:first-child td {
+  border-top: 1px solid rgba(0, 75, 141, 0.618);
 }
