@@ -11,7 +11,7 @@ window.Lasagna = window.Lasagna || {};
 window.Lasagna.App = (function() {
 
   var _classSelectors = {
-    selectedDate: '.js-selected-date',
+    selectedDate: '.js-app__selected-date',
     dailyActivityTableBody: '.c-app-daily-activity__log-table-body'
   };
 
