@@ -5,6 +5,14 @@
  * @author Bill Robitske, Jr. <bill.robitske.jr@gmail.com>
  * @license MIT
  */
+
+/**
+ * TODO: Account for mobile breakpoints
+ * - iPhone 7: 980x1461 (portrait), 980x551 (landscape)
+ * - iPad Pro: 980x1197 (portrait), 980x652 (landscape)
+ * *grumble, grumble*
+ */
+
 html, body {
   font-family: sans-serif;
   font-size: 1vw;
