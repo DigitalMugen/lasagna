@@ -1,0 +1,66 @@
+<link rel="import" href="circle-tally.html">
+<dom-module id="daily-task">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      :host input {
+        border: 1px solid transparent;
+        border-bottom-color: var(--app-daily-tasks-border-color, rgba(0, 75, 141, 0.5));
+      }
+      .c-task__number, .c-task__name, .c-task__length, .c-task__progress {
+        margin: 0 0.1em;
+      }
+      .c-task__number {
+        display: inline-block;
+        margin-left: 0;
+        width: 1em;
+        text-align: center;
+      }
+      .c-task__name {
+        width: calc(100% - 18em);
+        padding-left: 0.25em;
+        padding-right: 0.25em;
+      }
+      .c-task__length {
+        width: 3em;
+        text-align: center;
+      }
+      .c-task__length:last-child {
+        margin-right: 0;
+      }
+    </style>
+    <span class="c-task__number">[[taskNumber]]</span>
+    <input class="c-task__name" type="text" placeholder="Task" value="{{taskName::input}}">
+    <input class="c-task__length" type="number" placeholder="3" value="{{plannedLength::input}}">
+    <circle-tally class="c-task__progress" value="{{actualLength}}"></circle-tally>
+    <input class="c-task__length" type="number" placeholder="3" value="{{actualLength::input}}">
+  </template>
+  <script>
+    Polymer({
+      is: 'daily-task',
+      properties: {
+        taskNumber: {
+          type: Number,
+          value: 1
+        },
+        taskName: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        plannedLength: {
+          type: Number,
+          value: 0,
+          notify: true
+        },
+        actualLength: {
+          type: Number,
+          value: 0,
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>

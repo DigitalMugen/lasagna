@@ -1,16 +1,72 @@
+<link rel="import" href="daily-task.html">
+<link rel="import" href="rating-scale.html">
+<!--
+  `<app-daily-tasks>` includes the Daily Tasks view in the page
 
+  @copyright Bill Robitske, Jr. 2017
+  @author Bill Robitske, Jr. <bill.robitske.jr@gmail.com>
+  @license MIT
+-->
 <dom-module id="app-daily-tasks">
   <template>
     <style>
       :host {
         display: block;
+        padding: 0 0.25rem;
+      }
+      :host > *, .c-footer > p {
+        margin: 0.25rem 0;
+        padding: 0.25rem 0.25rem;
+      }
+      .c-heading {
+        font-size: 1.5em;
+        border-bottom: 1px solid var(--app-daily-tasks-border-color, rgba(0, 75, 141, 0.25));
+      }
+      .c-footer {
+        border-top: 1px solid var(--app-daily-tasks-border-color, rgba(0, 75, 141, 0.25));
+        text-align: center;
+      }
+      .c-review {
+        width: calc(100% - 4em);
+        border: 1px solid transparent;
+        border-bottom-color: var(--app-daily-tasks-border-color, rgba(0, 75, 141, 0.5));
+        padding-left: 0.25em;
+        padding-right: 0.25em;
       }
     </style>
-    
+    <h1 class="c-heading">Tasks for [[_generateSelectedDate(date)]]</h1>
+    <p>Today, I will be satisfied if I complete this one task:</p>
+    <daily-task task-number="1"></daily-task>
+    <p>Once completing that task, I'll feel more productive if I complete these tasks:</p>
+    <daily-task task-number="2"></daily-task>
+    <daily-task task-number="3"></daily-task>
+    <p>After I complete those tasks, I'll work on the following tasks with my remaining time:</p>
+    <daily-task task-number="4"></daily-task>
+    <daily-task task-number="5"></daily-task>
+    <div class="c-footer">
+      <p>Today, I feel I was this productive:</p>
+      <p><rating-scale value="3"></rating-scale></p>
+      <p><input class="c-review" type="text" placeholder="What helped me be productive or prevented me from being more productive"></p>
+    </div>
   </template>
   <script>
     Polymer({
-      is: 'app-daily-tasks'
+      is: 'app-daily-tasks',
+      properties: {
+        date: {
+          type: Date,
+          value: function() { return new Date(); }
+        }
+      },
+
+      _generateSelectedDate: function(date) {
+        return date.toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        });
+      }
     });
   </script>
 </dom-module>

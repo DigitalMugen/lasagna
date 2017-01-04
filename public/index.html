@@ -7,8 +7,7 @@
     <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="stylesheet" href="css/app.css">
     <script src="js/app.js"></script>
-    <link rel="import" href="elements/circle-tally.html">
-    <link rel="import" href="elements/rating-scale.html">
+    <link rel="import" href="elements/app-daily-tasks.html">
   </head>
   <body>
     <div class="c-app-layout__header">
@@ -16,54 +15,7 @@
     </div>
     <div class="c-app-layout__body">
       <div class="c-app-layout__body-column">
-        <div class="c-app-daily-tasks">
-          <h2 class="c-app-daily-tasks__heading">Tasks for <span class="js-app__selected-date">Today</span></h2>
-          <hr>
-          <p>Today, I will be satisfied if I complete at least this one task:</p>
-          <div>
-            <span>1</span>
-            <input type="text" placeholder="Task">
-            <input type="number">
-            <circle-tally value="0"></circle-tally>
-            <input type="number">
-          </div>
-          <p>Once completing that task, I'll feel more productive if I complete these tasks:</p>
-          <div>
-            <span>2</span>
-            <input type="text" placeholder="Task">
-            <input type="number">
-            <circle-tally value="2"></circle-tally>
-            <input type="number">
-          </div>
-          <div>
-            <span>3</span>
-            <input type="text" placeholder="Task">
-            <input type="number">
-            <circle-tally value="3"></circle-tally>
-            <input type="number">
-          </div>
-          <p>After I complete those tasks, I'll work on the following tasks with my remaining time:</p>
-          <div>
-            <span>4</span>
-            <input type="text" placeholder="Task">
-            <input type="number">
-            <circle-tally value="4"></circle-tally>
-            <input type="number">
-          </div>
-          <div>
-            <span>5</span>
-            <input type="text" placeholder="Task">
-            <input type="number">
-            <circle-tally value="5"></circle-tally>
-            <input type="number">
-          </div>
-          <hr>
-          <div class="c-app-daily-tasks__summary">
-            <p>Today, I feel I was this productive:</p>
-            <p><rating-scale value="3"></rating-scale></p>
-            <p><input type="text" placeholder="What helped me be productive or prevented me from being more productive"></p>
-          </div>
-        </div>
+        <app-daily-tasks></app-daily-tasks>
       </div>
       <div class="c-app-layout__body-column">
         <div class="c-app-daily-activity">
