@@ -100,7 +100,7 @@
        * @fires circle-tally-increment
        */
       _tally: function() {
-        this.set('value', this.value + 1);
+        this.set('value', parseInt(this.value) + 1);
         this.fire('circle-tally-increment', { value: this.value });
       }
     });
