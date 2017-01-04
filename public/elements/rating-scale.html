@@ -1,0 +1,102 @@
+<!--
+  `<rating-scale>` includes a 1-10 rating scale in the page
+
+  @copyright Bill Robitske, Jr. 2017
+  @author Bill Robitske, Jr. <bill.robitske.jr@gmail.com>
+  @license MIT
+-->
+<dom-module id="rating-scale">
+  <template strip-whitespace>
+    <style>
+      :host {
+        display: inline-block;
+        color: var(--rating-scale-color, rgb(0, 0, 39));
+      }
+      .c-rating {
+        display: inline-block;
+        border: 1px solid transparent;
+        border-radius: 0.75em;
+        text-align: center;
+        width: 1em;
+        padding: 0.25em;
+        cursor: pointer;
+      }
+      .c-rating.is-selected {
+        border-color: var(--rating-scale-color, rgb(0, 0, 39));
+      }
+      .c-rating:hover {
+        background-color: var(--rating-scale-hover-color, rgba(0, 75, 141, 0.5));
+        box-shadow: 0 0 4px var(--rating-scale-hover-color, rgba(0, 75, 141, 0.5)), 0 0 2px var(--rating-scale-hover-color, rgba(0, 75, 141, 0.5))
+      }
+      .c-divider::before {
+        content: " — ";
+        opacity: 0.5;
+      }
+    </style>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 1)]]" on-tap="_selectRating">1</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 2)]]" on-tap="_selectRating">2</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 3)]]" on-tap="_selectRating">3</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 4)]]" on-tap="_selectRating">4</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 5)]]" on-tap="_selectRating">5</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 6)]]" on-tap="_selectRating">6</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 7)]]" on-tap="_selectRating">7</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 8)]]" on-tap="_selectRating">8</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 9)]]" on-tap="_selectRating">9</span>
+    <span class="c-divider"></span>
+    <span class$="c-rating [[_generateIsSelectedClass(value, 10)]]" on-tap="_selectRating">10</span>
+  </template>
+  <script>
+    Polymer({
+      is: 'rating-scale',
+      properties: {
+
+        /**
+         * Current rating value
+         */
+        value: {
+          type: Number,
+          value: 0,
+          notify: true
+        }
+      },
+
+      /**
+       * @event rating-scale-change
+       * @param {Number} value Current rating value
+       */
+
+      /**
+       * Generates an `is-selected` class if needed
+       *
+       * @private
+       * @param {Number} controlValue Current rating value
+       * @param {Number} elementValue Rating value represented by this item of the scale
+       * @return {String} `is-selected` class or blank
+       */
+      _generateIsSelectedClass: function(controlValue, elementValue) {
+        return controlValue === elementValue ? 'is-selected' : '';
+      },
+
+      /**
+       * Updates the rating to the selected scale value
+       *
+       * @private
+       * @param {Object} event `tap` event details
+       * @fires rating-scale-change
+       */
+      _selectRating: function(event) {
+        var elementValue = event.target.textContent;
+        this.set('value', parseInt(elementValue));
+        this.fire('rating-scale-change', { value: this.value });
+      }
+    });
+  </script>
+</dom-module>

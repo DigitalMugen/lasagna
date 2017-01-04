@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/app.css">
     <script src="js/app.js"></script>
     <link rel="import" href="elements/circle-tally.html">
+    <link rel="import" href="elements/rating-scale.html">
   </head>
   <body>
     <div class="c-app-layout__header">
@@ -59,7 +60,7 @@
           <hr>
           <div class="c-app-daily-tasks__summary">
             <p>Today, I feel I was this productive:</p>
-            <p>1 &mdash; 2 &mdash; 3 &mdash; 4 &mdash; 5 &mdash; 6 &mdash; 7 &mdash; 8 &mdash; 9 &mdash; 10</p>
+            <p><rating-scale value="3"></rating-scale></p>
             <p><input type="text" placeholder="What helped me be productive or prevented me from being more productive"></p>
           </div>
         </div>
