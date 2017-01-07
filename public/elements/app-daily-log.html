@@ -1,0 +1,103 @@
+<dom-module id="app-daily-log">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin: 0.25rem;
+        border: 1px solid var(--app-daily-log-border-color, rgba(0, 75, 141, 0.25));
+        border-radius: 0.25rem;
+        padding: 0 0.25rem;
+      }
+      :host > *, .c-footer > p {
+        margin: 0.25rem 0;
+        padding: 0.25rem 0.25rem;
+      }
+      .c-heading {
+        font-size: 1.5em;
+        border-bottom: 1px solid var(--app-daily-log-border-color, rgba(0, 75, 141, 0.25));
+      }
+      .c-log__hour {
+        display: block;
+        border-top: 1px solid var(--app-daily-log-border-color, rgba(0, 75, 141, 0.25));
+      }
+      .c-log__hour:last-of-type {
+        border-bottom: 1px solid var(--app-daily-log-border-color, rgba(0, 75, 141, 0.25));
+      }
+      .c-log__hour-time {
+        display: block;
+        float: left;
+        width: 5rem;
+        box-sizing: border-box;
+        height: calc(6rem + 3px);
+        text-align: center;
+        padding: 0.25rem;
+      }
+      .c-log__quarter-hour {
+        display: block;
+        float: right;
+        width: calc(100% - 5rem - 4px);
+        height: 1.5rem;
+        border-top: 1px solid var(--app-daily-log-border-color, rgba(0, 75, 141, 0.25));
+      }
+      .c-log__hour > .c-log__hour-time + .c-log__quarter-hour {
+        border-top: none;
+      }
+      .u-clear-both {
+        clear: both;
+      }
+    </style>
+    <h1 class="c-heading">Activity for [[_generateSelectedDate(date)]]</h1>
+    <div class="c-log">
+      <template is="dom-repeat" items="[[_generateHourArray(startHour, endHour)]]">
+        <div class="c-log__hour">
+          <div class="c-log__hour-time">[[_generateHourTime(item)]]</div>
+          <div class="c-log__quarter-hour">&nbsp;</div>
+          <div class="c-log__quarter-hour">&nbsp;</div>
+          <div class="c-log__quarter-hour">&nbsp;</div>
+          <div class="c-log__quarter-hour">&nbsp;</div>
+          <div class="u-clear-both"></div>
+        </div>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'app-daily-log',
+      properties: {
+        date: {
+          type: Date,
+          value: function() { return new Date(); }
+        },
+        startHour: {
+          type: Number,
+          value: 7
+        },
+        endHour: {
+          type: Number,
+          value: 18
+        },
+      },
+      _generateSelectedDate: function(date) {
+        return date.toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        });
+      },
+      _generateHourArray: function(startHour, endHour) {
+        var hourArray = [];
+        for (var hour = startHour; hour <= endHour; ++hour) {
+          hourArray.push(hour);
+        }
+        return hourArray;
+      },
+      _generateHourTime: function(hour) {
+        var hour12 = hour % 12;
+        if (hour12 === 0) hour12 = 12;
+        var amPm = (hour / 12) >= 1 ? ' PM' : ' AM';
+        return hour12 + amPm;
+      },
+    });
+  </script>
+</dom-module>

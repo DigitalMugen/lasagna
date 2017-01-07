@@ -56,15 +56,3 @@ body {
 .c-app__copyright-notice a {
   color: inherit;
 }
-
-.c-app-daily-tasks__summary {
-  text-align: center;
-}
-
-.c-app-daily-activity table {
-  border-collapse: collapse;
-}
-.c-app-daily-activity__agenda-hour tr:first-child th,
-.c-app-daily-activity__agenda-hour tr:first-child td {
-  border-top: 1px solid rgba(0, 75, 141, 0.618);
-}
