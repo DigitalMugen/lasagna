@@ -16,11 +16,5 @@
     "public/bower_components",
     "test",
     "tests"
-  ],
-  "dependencies": {
-    "polymer": "Polymer/polymer#^1.7.1",
-    "polymerfire": "firebase/polymerfire#^0.10.3",
-    "bootstrap": "^3.3.7",
-    "paper-rating": "mgibas/paper-rating#^1.1.1"
-  }
+  ]
 }
