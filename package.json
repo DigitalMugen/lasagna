@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/DigitalMugen/lasagna/issues"
   },
-  "homepage": "https://github.com/DigitalMugen/lasagna#readme"
+  "homepage": "https://github.com/DigitalMugen/lasagna#readme",
+  "devDependencies": {
+    "typescript": "^2.1.6"
+  }
 }
