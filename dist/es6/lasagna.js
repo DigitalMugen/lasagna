@@ -185,15 +185,24 @@ class LasagnaActivityLogElement extends HTMLElement {
                 started: null,
                 stopped: null
             };
-        this.activities[index][detail] = value;
-        if (detail === 'started' || detail === 'stopped')
+        if (detail === 'started' || detail === 'stopped') {
+            const date = new Date();
+            date.setHours(Number.parseInt(value.substr(0, 2)));
+            date.setMinutes(Number.parseInt(value.substr(3, 2)));
+            date.setSeconds(0);
+            date.setMilliseconds(0);
+            this.activities[index][detail] = date;
             this.updateDuration(index);
+        }
+        else {
+            this.activities[index][detail] = value;
+        }
     }
     updateDuration(index) {
         if (index >= this.activities.length)
             return;
         const activity = this.activities[index];
-        const activityForm = this.querySelectorAll('.c-activity-log__activities')[index];
+        const activityForm = this.shadowRoot.querySelectorAll('.c-activity-log__activity').item(index);
         activityForm['duration'].value = LasagnaActivityLogElement.formatDuration(LasagnaActivityLogElement.computeDuration(activity.started, activity.stopped));
     }
     static computeDuration(started, stopped) {
@@ -201,7 +210,7 @@ class LasagnaActivityLogElement extends HTMLElement {
             : new Date();
         const _stopped = stopped ? (stopped instanceof Date ? stopped : new Date(stopped))
             : new Date();
-        const duration = _stopped.getTime() - _started.getTime();
+        const duration = Math.round((_stopped.getTime() - _started.getTime()) / 1000);
         return duration > 0 ? duration : 0;
     }
     static formatDuration(duration) {
