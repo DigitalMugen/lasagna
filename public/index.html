@@ -1,29 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Lasagna - Task Planning and Logging</title>
-    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-    <link rel="import" href="bower_components/polymer/polymer.html">
-    <link rel="stylesheet" href="css/app.css">
-    <script src="js/app.js"></script>
-    <link rel="import" href="elements/app-daily-tasks.html">
-    <link rel="import" href="elements/app-daily-log.html">
+    <title>Lasagna</title>
+    <script src="../js/es6/lasagna.js"></script>
+    <style>
+      html, body {
+        font-family: sans-serif;
+        font-size: 10pt;
+      }
+    </style>
   </head>
   <body>
-    <div class="c-app-layout__header">
-      <h1 class="c-app__title">Lasagna <small>Task Planning and Logging</small></h1>
-    </div>
-    <div class="c-app-layout__body">
-      <div class="c-app-layout__body-column">
-        <app-daily-tasks></app-daily-tasks>
-      </div>
-      <div class="c-app-layout__body-column">
-        <app-daily-log></app-daily-log>
-      </div>
-    </div>
-    <div class="c-app-layout__footer">
-      <p class="c-app__copyright-notice">Copyright © Bill Robitske, Jr. 2016-2017 - <a href="https://github.com/DigitalMugen/lasagna" title="Lasagna on GitHub" target="_blank">GitHub Source</a></p>
-    </div>
+    <lasagna-activity-log></lasagna-activity-log>
   </body>
 </html>

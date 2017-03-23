@@ -1,0 +1,26 @@
+{
+  "name": "lasagna",
+  "version": "1.0.0",
+  "description": "Task planning and activity logging",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack && cp -r ./dist ./public/js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DigitalMugen/lasagna.git"
+  },
+  "author": "Bill Robitske, Jr. <bill.robitske.jr@gmail.com> (https://github.com/BillRobitskeJr)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DigitalMugen/lasagna/issues"
+  },
+  "homepage": "https://github.com/DigitalMugen/lasagna#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.1.2",
+    "source-map-loader": "^0.2.0",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1"
+  }
+}
