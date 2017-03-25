@@ -25,10 +25,18 @@ class LogActivityElement extends HTMLElement {
   connectedCallback() {
     const activity = this.activity;
     this.innerHTML = `
-      <input type="text" placeholder="Task name" value="${activity.task}">
-      <input type="time" value="${activity.started}">
-      <input type="time" value="${activity.stopped}">
-      <input type="text">
+      <label class="column-task">
+        <input type="text" placeholder="Task name" value="${activity.task}">
+      </label>
+      <label class="column-detail">
+        <input type="time" value="${activity.started}">
+      </label>
+      <label class="column-detail">
+        <input type="time" value="${activity.stopped}">
+      </label>
+      <label class="column-detail">
+        <input type="text">
+      </label>
     `;
   }
 }
@@ -82,14 +90,52 @@ export default class LasagnaActivityLogElement extends HTMLElement {
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.innerHTML = `
       <style>
+        :host {
+          font-size: 1rem;
+        }
+        :host * {
+          box-sizing: border-box;
+        }
+        :host h1 {
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
+        :host section {
+          display: flex;
+          flex-direction: column;
+        }
+        :host section > header {
+          display: flex;
+          flex-direction: row;
+        }
+        :host .column-task {
+          display: inline-block;
+          width: calc(100% - 31.5rem);
+          padding: 0;
+          text-align: left;
+        }
+        :host .column-detail {
+          display: inline-block;
+          margin: 0;
+          width: 10.5rem;
+          padding: 0 0 0 0.5rem;
+          text-align: center;
+        }
+        :host .column-task input,
+        :host .column-detail input {
+          width: 100%;
+          border: none;
+          border-bottom: 1px solid black;
+          height: 1.1rem;
+        }
       </style>
       <h1>Activity Log for <span>${this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS)}</span></h1>
       <section>
         <header>
-          <span>Task</span>
-          <span>Started At</span>
-          <span>Stopped At</span>
-          <span>Duration</span>
+          <span class="column-task">Task</span>
+          <span class="column-detail">Started At</span>
+          <span class="column-detail">Stopped At</span>
+          <span class="column-detail">Duration</span>
         </header>
         <lasagna-activity-log-activity></lasagna-activity-log-activity>
       </section>
