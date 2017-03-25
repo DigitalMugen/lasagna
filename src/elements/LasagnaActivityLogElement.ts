@@ -1,5 +1,7 @@
 import { ActivityData } from '../interfaces/ActivityData';
 
+import { innerHTML } from 'diffhtml';
+
 const LOCALES = 'en-US';
 const DATE_STRING_OPTIONS = {
   month: 'long',
@@ -25,18 +27,54 @@ class LogActivityElement extends HTMLElement {
   connectedCallback() {
     const activity = this.activity;
     this.innerHTML = `
-      <label class="column-task">
-        <input type="text" placeholder="Task name" value="${activity.task}">
-      </label>
-      <label class="column-detail">
-        <input type="time" value="${activity.started}">
-      </label>
-      <label class="column-detail">
-        <input type="time" value="${activity.stopped}">
-      </label>
-      <label class="column-detail">
-        <input type="text">
-      </label>
+      <style>
+        .c-activity {
+          display: flex;
+          flex-direction: row;
+        }
+        .c-activity > * {
+          display: inline-block;
+          margin: 0.1rem 0.25rem;
+          border-bottom: 1px solid black;
+          padding: 0 0.25rem;
+        }
+        .c-activity > * > input {
+          margin: 0;
+          width: 100%;
+          height: 1.1rem;
+          border: none;
+          padding: 0;
+          font-size: 1rem;
+        }
+        .c-activity__task {
+          width: calc(100% - 26.5rem);
+        }
+        .c-activity__task > input {
+          text-align: left;
+        }
+        .c-activity__time,
+        .c-activity__duration {
+          width: calc(7.5rem);
+        }
+        .c-activity__time > input,
+        .c-activity__duration > input {
+          text-align: center;
+        }
+      </style>
+      <form class="c-activity">
+        <label class="c-activity__task">
+          <input type="text" value="${activity.task}" placeholder="Task name">
+        </label>
+        <label class="c-activity__time">
+          <input type="time" value="${activity.started}">
+        </label>
+        <label class="c-activity__time">
+          <input type="time" value="${activity.stopped}">
+        </label>
+        <label class="c-activity__duration">
+          <input type="text">
+        </label>
+      </form>
     `;
   }
 }
@@ -68,7 +106,7 @@ export default class LasagnaActivityLogElement extends HTMLElement {
   attributeChangedCallback(attr: string, oldValue: string, newValue: string) {
     switch (attr) {
       case 'date':
-        this.updateDateDisplay(this.date);
+        this.render();
         break;
       default:
         break;
@@ -83,6 +121,10 @@ export default class LasagnaActivityLogElement extends HTMLElement {
     return new Date(this.getAttribute('date'));
   }
 
+  set date(value: Date) {
+    this.setAttribute('date', value.toISOString());
+  }
+
   /**
    * Complete construction of DOM element
    */
@@ -90,64 +132,56 @@ export default class LasagnaActivityLogElement extends HTMLElement {
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.innerHTML = `
       <style>
-        :host {
-          font-size: 1rem;
-        }
-        :host * {
-          box-sizing: border-box;
-        }
-        :host h1 {
-          font-size: 1.25rem;
+        .c-activity-log__title {
+          font-size: 1.5rem;
           font-weight: 600;
         }
-        :host section {
-          display: flex;
-          flex-direction: column;
-        }
-        :host section > header {
+        .c-activity-log__headings {
           display: flex;
           flex-direction: row;
         }
-        :host .column-task {
+        .c-activity-log__headings > * {
           display: inline-block;
-          width: calc(100% - 31.5rem);
-          padding: 0;
+          margin: 0.1rem 0.25rem;
+          border-bottom: 1px solid transparent;
+          padding: 0.25rem;
+          font-weight: 500;
+        }
+        .c-activity-log__task-heading {
+          width: calc(100% - 26.5rem);
           text-align: left;
         }
-        :host .column-detail {
-          display: inline-block;
-          margin: 0;
-          width: 10.5rem;
-          padding: 0 0 0 0.5rem;
+        .c-activity-log__time-heading,
+        .c-activity-log__duration-heading {
+          width: 7.5rem;
           text-align: center;
         }
-        :host .column-task input,
-        :host .column-detail input {
-          width: 100%;
-          border: none;
-          border-bottom: 1px solid black;
-          height: 1.1rem;
-        }
       </style>
-      <h1>Activity Log for <span>${this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS)}</span></h1>
       <section>
-        <header>
-          <span class="column-task">Task</span>
-          <span class="column-detail">Started At</span>
-          <span class="column-detail">Stopped At</span>
-          <span class="column-detail">Duration</span>
-        </header>
-        <lasagna-activity-log-activity></lasagna-activity-log-activity>
       </section>
     `;
+    this.render();
   }
 
-  /**
-   * Updates the diplayed date of this activity log
-   * @param newDate New date of this activity log
-   */
-  updateDateDisplay(newDate: Date) {
-    const dateDisplay = this.shadowRoot.querySelector('h1 > span');
-    dateDisplay.innerHTML = this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS);
+  render() {
+    innerHTML(this.shadowRoot.querySelector('section'), `
+      <header>
+        <h1 class="c-activity-log__title">Activity Log for ${this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS)}</h1>
+        <div class="c-activity-log__headings">
+          <span class="c-activity-log__task-heading">Task</span>
+          <span class="c-activity-log__time-heading">Started At</span>
+          <span class="c-activity-log__time-heading">Stopped At</span>
+          <span class="c-activity-log__duration-heading">Duration</span>
+        </div>
+      </header>
+      <div class="c-activity-log__activities">
+        ${this.renderActivities([])}
+      </div>
+    `);
+  }
+
+  renderActivities(activities: ActivityData[]): String {
+    const elements = activities.reduce((acc, activity) => `${acc}<lasagna-activity-log-activity></lasagna-activity-log-activity>`, '');
+    return `${elements}<lasagna-activity-log-activity></lasagna-activity-log-activity>`;
   }
 }

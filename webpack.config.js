@@ -2,7 +2,7 @@ module.exports = {
   entry: './src/app.ts',
   output: {
     filename: 'lasagna.js',
-    path: __dirname + '/dist/es6'
+    path: __dirname + '/public/js'
   },
   devtool: 'source-map',
   resolve: {
@@ -11,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {test: /.js$/, loader: 'source-map-loader', enforce: 'pre'},
-      {test: /.ts$/, loader: 'awesome-typescript-loader'}
+      {test: /.ts$/, loader: 'awesome-typescript-loader'},
     ]
   }
 }
