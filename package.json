@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack && cp -r ./dist ./public/js"
+    "update-public": "cp -r ./dist ./public/js",
+    "build": "webpack && npm run update-public",
+    "watch-update-public": "watch --patern \"./dist/**/*.js\" --command \"npm run update-public\"",
+    "watch-build": "webpack --watch",
+    "serve": "firebase serve",
+    "deploy": "firebase deploy",
+    "watch": "multiview [npm run watch-build] [npm run watch-update-public] [npm run serve]"
   },
   "repository": {
     "type": "git",
@@ -19,8 +25,10 @@
   "homepage": "https://github.com/DigitalMugen/lasagna#readme",
   "devDependencies": {
     "awesome-typescript-loader": "^3.1.2",
+    "multiview": "^2.5.1",
     "source-map-loader": "^0.2.0",
     "typescript": "^2.2.1",
+    "watch-cli": "^0.2.1",
     "webpack": "^2.2.1"
   }
 }
