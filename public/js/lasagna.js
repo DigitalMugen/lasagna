@@ -90,32 +90,20 @@ var DATE_STRING_OPTIONS = {
     day: 'numeric',
     year: 'numeric'
 };
-var LogActivityElement = (function (_super) {
-    __extends(LogActivityElement, _super);
-    function LogActivityElement() {
-        return _super.call(this) || this;
+function generateDuration(started, stopped) {
+    function pad(source, length) {
+        if (source.length >= length)
+            return source;
+        return "0" + source;
     }
-    Object.defineProperty(LogActivityElement.prototype, "activity", {
-        get: function () {
-            if (!this.hasAttribute('activity'))
-                return { task: '', started: null, stopped: null };
-            var activityData = JSON.parse(this.getAttribute('activity'));
-            return {
-                task: activityData.task || '',
-                started: activityData.started ? new Date(activityData.started) : null,
-                stopped: activityData.stopped ? new Date(activityData.stopped) : null
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    LogActivityElement.prototype.connectedCallback = function () {
-        var activity = this.activity;
-        this.innerHTML = "\n      <style>\n        .c-activity {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid black;\n          padding: 0 0.25rem;\n        }\n        .c-activity > * > input {\n          margin: 0;\n          width: 100%;\n          height: 1.1rem;\n          border: none;\n          padding: 0;\n          font-size: 1rem;\n        }\n        .c-activity__task {\n          width: calc(100% - 26.5rem);\n        }\n        .c-activity__task > input {\n          text-align: left;\n        }\n        .c-activity__time,\n        .c-activity__duration {\n          width: calc(7.5rem);\n        }\n        .c-activity__time > input,\n        .c-activity__duration > input {\n          text-align: center;\n        }\n      </style>\n      <form class=\"c-activity\">\n        <label class=\"c-activity__task\">\n          <input type=\"text\" value=\"" + activity.task + "\" placeholder=\"Task name\">\n        </label>\n        <label class=\"c-activity__time\">\n          <input type=\"time\" value=\"" + activity.started + "\">\n        </label>\n        <label class=\"c-activity__time\">\n          <input type=\"time\" value=\"" + activity.stopped + "\">\n        </label>\n        <label class=\"c-activity__duration\">\n          <input type=\"text\">\n        </label>\n      </form>\n    ";
-    };
-    return LogActivityElement;
-}(HTMLElement));
-window.customElements.define('lasagna-activity-log-activity', LogActivityElement);
+    var _started = started ? (started instanceof Date ? started : new Date(started)) : new Date();
+    var _stopped = stopped ? (stopped instanceof Date ? stopped : new Date(stopped)) : new Date();
+    var duration = Math.round((_stopped.getTime() - _started.getTime()) / 1000);
+    var hours = Math.floor(duration / 3600);
+    var minutes = Math.floor(duration % 3600 / 60);
+    var seconds = duration % 3600;
+    return hours + ":" + pad(minutes.toString(), 2) + ":" + pad(seconds.toString(), 2);
+}
 /**
  * Activity Log web component behavior
  */
@@ -170,15 +158,19 @@ var LasagnaActivityLogElement = (function (_super) {
      */
     LasagnaActivityLogElement.prototype.connectedCallback = function () {
         var shadowRoot = this.attachShadow({ mode: 'open' });
-        shadowRoot.innerHTML = "\n      <style>\n        .c-activity-log__title {\n          font-size: 1.5rem;\n          font-weight: 600;\n        }\n        .c-activity-log__headings {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__headings > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid transparent;\n          padding: 0.25rem;\n          font-weight: 500;\n        }\n        .c-activity-log__task-heading {\n          width: calc(100% - 26.5rem);\n          text-align: left;\n        }\n        .c-activity-log__time-heading,\n        .c-activity-log__duration-heading {\n          width: 7.5rem;\n          text-align: center;\n        }\n      </style>\n      <section>\n      </section>\n    ";
+        shadowRoot.innerHTML = "\n      <style>\n        .c-activity-log__title {\n          font-size: 1.5rem;\n          font-weight: 600;\n        }\n        .c-activity-log__headings {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__headings > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid transparent;\n          padding: 0.25rem;\n          font-weight: 500;\n        }\n        .c-activity-log__task-heading {\n          width: calc(100% - 26.5rem);\n          text-align: left;\n        }\n        .c-activity-log__time-heading,\n        .c-activity-log__duration-heading {\n          width: 7.5rem;\n          text-align: center;\n        }\n        .c-activity-log__activity {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__activity > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid black;\n          padding: 0 0.25rem;\n        }\n        .c-activity-log__activity > * > input {\n          margin: 0;\n          width: 100%;\n          height: 1.1rem;\n          border: none;\n          padding: 0;\n          font-size: 1rem;\n        }\n        .c-activity-log__activity-task {\n          width: calc(100% - 26.5rem);\n        }\n        .c-activity-log__activity-task > input {\n          text-align: left;\n        }\n        .c-activity-log__activity-time,\n        .c-activity-log__activity-duration {\n          width: calc(7.5rem);\n        }\n        .c-activity-log__activity-time > input,\n        .c-activity-log__activity-duration > input {\n          text-align: center;\n        }\n      </style>\n      <section>\n      </section>\n    ";
         this.render();
     };
     LasagnaActivityLogElement.prototype.render = function () {
         diffhtml_1.innerHTML(this.shadowRoot.querySelector('section'), "\n      <header>\n        <h1 class=\"c-activity-log__title\">Activity Log for " + this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS) + "</h1>\n        <div class=\"c-activity-log__headings\">\n          <span class=\"c-activity-log__task-heading\">Task</span>\n          <span class=\"c-activity-log__time-heading\">Started At</span>\n          <span class=\"c-activity-log__time-heading\">Stopped At</span>\n          <span class=\"c-activity-log__duration-heading\">Duration</span>\n        </div>\n      </header>\n      <div class=\"c-activity-log__activities\">\n        " + this.renderActivities([]) + "\n      </div>\n    ");
     };
     LasagnaActivityLogElement.prototype.renderActivities = function (activities) {
-        var elements = activities.reduce(function (acc, activity) { return acc + "<lasagna-activity-log-activity></lasagna-activity-log-activity>"; }, '');
-        return elements + "<lasagna-activity-log-activity></lasagna-activity-log-activity>";
+        var _this = this;
+        var elements = activities.reduce(function (acc, activity) { return "" + acc + _this.renderActivity(activity); }, '');
+        return "" + elements + this.renderActivity({ task: '', started: null, stopped: null });
+    };
+    LasagnaActivityLogElement.prototype.renderActivity = function (activity) {
+        return "\n      <form class=\"c-activity-log__activity\">\n        <label class=\"c-activity-log__activity-task\">\n          <input type=\"text\" value=\"" + activity.task + "\" placeholder=\"Task name\">\n        </label>\n        <label class=\"c-activity-log__activity-time\">\n          <input type=\"time\" value=\"" + activity.started + "\">\n        </label>\n        <label class=\"c-activity-log__activity-time\">\n          <input type=\"time\" value=\"" + activity.stopped + "\">\n        </label>\n        <label class=\"c-activity-log__activity-duration\">\n          <input type=\"text\" value=\"" + generateDuration(activity.started, activity.stopped) + "\">\n        </label>\n      </form>\n    ";
     };
     return LasagnaActivityLogElement;
 }(HTMLElement));
