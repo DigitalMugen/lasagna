@@ -1,6 +1,9 @@
 import { ActivityData } from '../interfaces/ActivityData';
+import LasagnaActivityLogActivityElement from './LasagnaActivityLogActivityElement';
 
 import { innerHTML } from 'diffhtml';
+
+(<any>window).customElements.define('lasagna-activity-log-activity', LasagnaActivityLogActivityElement);
 
 const LOCALES = 'en-US';
 const DATE_STRING_OPTIONS = {
@@ -73,8 +76,12 @@ export default class LasagnaActivityLogElement extends HTMLElement {
    * Complete construction of DOM element
    */
   connectedCallback() {
-    const shadowRoot = this.attachShadow({mode: 'open'});
-    shadowRoot.innerHTML = `
+    this.attachShadow({mode: 'open'});
+    this.render();
+  }
+
+  render() {
+    innerHTML(this.shadowRoot, `
       <style>
         .c-activity-log__title {
           font-size: 1.5rem;
@@ -134,31 +141,27 @@ export default class LasagnaActivityLogElement extends HTMLElement {
         }
       </style>
       <section>
-      </section>
-    `;
-    this.render();
-  }
-
-  render() {
-    innerHTML(this.shadowRoot.querySelector('section'), `
-      <header>
-        <h1 class="c-activity-log__title">Activity Log for ${this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS)}</h1>
-        <div class="c-activity-log__headings">
-          <span class="c-activity-log__task-heading">Task</span>
-          <span class="c-activity-log__time-heading">Started At</span>
-          <span class="c-activity-log__time-heading">Stopped At</span>
-          <span class="c-activity-log__duration-heading">Duration</span>
+        <header>
+          <h1 class="c-activity-log__title">Activity Log for ${this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS)}</h1>
+          <div class="c-activity-log__headings">
+            <span class="c-activity-log__task-heading">Task</span>
+            <span class="c-activity-log__time-heading">Started At</span>
+            <span class="c-activity-log__time-heading">Stopped At</span>
+            <span class="c-activity-log__duration-heading">Duration</span>
+          </div>
+        </header>
+        <div class="c-activity-log__activities">
+          ${this.renderActivities([])}
         </div>
-      </header>
-      <div class="c-activity-log__activities">
-        ${this.renderActivities([])}
-      </div>
+      </section>
     `);
   }
 
   renderActivities(activities: ActivityData[]): String {
-    const elements = activities.reduce((acc, activity) => `${acc}${this.renderActivity(activity)}`, '');
-    return `${elements}${this.renderActivity({task: '', started: null, stopped: null})}`;
+    const elements = activities.reduce((acc, activity) => `${acc}<lasagna-activity-log-activity activity=""></lasagna-activity-log-activity>`, '');
+    //const elements = activities.reduce((acc, activity) => `${acc}${this.renderActivity(activity)}`, '');
+    return `${elements}<lasagna-activity-log-activity></lasagna-activity-log-activity>`;
+    //return `${elements}${this.renderActivity({task: '', started: null, stopped: null})}`;
   }
 
   renderActivity(activity: ActivityData): String {

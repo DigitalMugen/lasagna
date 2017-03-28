@@ -63,122 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var diffhtml_1 = __webpack_require__(1);
-var LOCALES = 'en-US';
-var DATE_STRING_OPTIONS = {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-};
-function generateDuration(started, stopped) {
-    function pad(source, length) {
-        if (source.length >= length)
-            return source;
-        return "0" + source;
-    }
-    var _started = started ? (started instanceof Date ? started : new Date(started)) : new Date();
-    var _stopped = stopped ? (stopped instanceof Date ? stopped : new Date(stopped)) : new Date();
-    var duration = Math.round((_stopped.getTime() - _started.getTime()) / 1000);
-    var hours = Math.floor(duration / 3600);
-    var minutes = Math.floor(duration % 3600 / 60);
-    var seconds = duration % 3600;
-    return hours + ":" + pad(minutes.toString(), 2) + ":" + pad(seconds.toString(), 2);
-}
-/**
- * Activity Log web component behavior
- */
-var LasagnaActivityLogElement = (function (_super) {
-    __extends(LasagnaActivityLogElement, _super);
-    /**
-     * Activity Log element constructor
-     */
-    function LasagnaActivityLogElement() {
-        return _super.call(this) || this;
-    }
-    Object.defineProperty(LasagnaActivityLogElement, "observedAttributes", {
-        /**
-         * Attributes to watch for changes
-         */
-        get: function () { return ['date', 'activities']; },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Handle changes to observed attributes
-     * @param attr Name of the changed attribute
-     * @param oldValue Attribute's old value
-     * @param newValue Attribute's new value
-     */
-    LasagnaActivityLogElement.prototype.attributeChangedCallback = function (attr, oldValue, newValue) {
-        switch (attr) {
-            case 'date':
-                this.render();
-                break;
-            default:
-                break;
-        }
-    };
-    Object.defineProperty(LasagnaActivityLogElement.prototype, "date", {
-        /**
-         * Date of activities listed in this log
-         */
-        get: function () {
-            if (!this.hasAttribute('date'))
-                return new Date();
-            return new Date(this.getAttribute('date'));
-        },
-        set: function (value) {
-            this.setAttribute('date', value.toISOString());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Complete construction of DOM element
-     */
-    LasagnaActivityLogElement.prototype.connectedCallback = function () {
-        var shadowRoot = this.attachShadow({ mode: 'open' });
-        shadowRoot.innerHTML = "\n      <style>\n        .c-activity-log__title {\n          font-size: 1.5rem;\n          font-weight: 600;\n        }\n        .c-activity-log__headings {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__headings > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid transparent;\n          padding: 0.25rem;\n          font-weight: 500;\n        }\n        .c-activity-log__task-heading {\n          width: calc(100% - 26.5rem);\n          text-align: left;\n        }\n        .c-activity-log__time-heading,\n        .c-activity-log__duration-heading {\n          width: 7.5rem;\n          text-align: center;\n        }\n        .c-activity-log__activity {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__activity > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid black;\n          padding: 0 0.25rem;\n        }\n        .c-activity-log__activity > * > input {\n          margin: 0;\n          width: 100%;\n          height: 1.1rem;\n          border: none;\n          padding: 0;\n          font-size: 1rem;\n        }\n        .c-activity-log__activity-task {\n          width: calc(100% - 26.5rem);\n        }\n        .c-activity-log__activity-task > input {\n          text-align: left;\n        }\n        .c-activity-log__activity-time,\n        .c-activity-log__activity-duration {\n          width: calc(7.5rem);\n        }\n        .c-activity-log__activity-time > input,\n        .c-activity-log__activity-duration > input {\n          text-align: center;\n        }\n      </style>\n      <section>\n      </section>\n    ";
-        this.render();
-    };
-    LasagnaActivityLogElement.prototype.render = function () {
-        diffhtml_1.innerHTML(this.shadowRoot.querySelector('section'), "\n      <header>\n        <h1 class=\"c-activity-log__title\">Activity Log for " + this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS) + "</h1>\n        <div class=\"c-activity-log__headings\">\n          <span class=\"c-activity-log__task-heading\">Task</span>\n          <span class=\"c-activity-log__time-heading\">Started At</span>\n          <span class=\"c-activity-log__time-heading\">Stopped At</span>\n          <span class=\"c-activity-log__duration-heading\">Duration</span>\n        </div>\n      </header>\n      <div class=\"c-activity-log__activities\">\n        " + this.renderActivities([]) + "\n      </div>\n    ");
-    };
-    LasagnaActivityLogElement.prototype.renderActivities = function (activities) {
-        var _this = this;
-        var elements = activities.reduce(function (acc, activity) { return "" + acc + _this.renderActivity(activity); }, '');
-        return "" + elements + this.renderActivity({ task: '', started: null, stopped: null });
-    };
-    LasagnaActivityLogElement.prototype.renderActivity = function (activity) {
-        return "\n      <form class=\"c-activity-log__activity\">\n        <label class=\"c-activity-log__activity-task\">\n          <input type=\"text\" value=\"" + activity.task + "\" placeholder=\"Task name\">\n        </label>\n        <label class=\"c-activity-log__activity-time\">\n          <input type=\"time\" value=\"" + activity.started + "\">\n        </label>\n        <label class=\"c-activity-log__activity-time\">\n          <input type=\"time\" value=\"" + activity.stopped + "\">\n        </label>\n        <label class=\"c-activity-log__activity-duration\">\n          <input type=\"text\" value=\"" + generateDuration(activity.started, activity.stopped) + "\">\n        </label>\n      </form>\n    ";
-    };
-    return LasagnaActivityLogElement;
-}(HTMLElement));
-exports.default = LasagnaActivityLogElement;
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;(function(f){if(true){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.diff = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return require(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -2841,10 +2730,201 @@ function makePromises(stateName) {
 
 },{}]},{},[1])(1)
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var LasagnaActivityLogActivityElement_1 = __webpack_require__(2);
+var diffhtml_1 = __webpack_require__(0);
+window.customElements.define('lasagna-activity-log-activity', LasagnaActivityLogActivityElement_1.default);
+var LOCALES = 'en-US';
+var DATE_STRING_OPTIONS = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+};
+function generateDuration(started, stopped) {
+    function pad(source, length) {
+        if (source.length >= length)
+            return source;
+        return "0" + source;
+    }
+    var _started = started ? (started instanceof Date ? started : new Date(started)) : new Date();
+    var _stopped = stopped ? (stopped instanceof Date ? stopped : new Date(stopped)) : new Date();
+    var duration = Math.round((_stopped.getTime() - _started.getTime()) / 1000);
+    var hours = Math.floor(duration / 3600);
+    var minutes = Math.floor(duration % 3600 / 60);
+    var seconds = duration % 3600;
+    return hours + ":" + pad(minutes.toString(), 2) + ":" + pad(seconds.toString(), 2);
+}
+/**
+ * Activity Log web component behavior
+ */
+var LasagnaActivityLogElement = (function (_super) {
+    __extends(LasagnaActivityLogElement, _super);
+    /**
+     * Activity Log element constructor
+     */
+    function LasagnaActivityLogElement() {
+        return _super.call(this) || this;
+    }
+    Object.defineProperty(LasagnaActivityLogElement, "observedAttributes", {
+        /**
+         * Attributes to watch for changes
+         */
+        get: function () { return ['date', 'activities']; },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Handle changes to observed attributes
+     * @param attr Name of the changed attribute
+     * @param oldValue Attribute's old value
+     * @param newValue Attribute's new value
+     */
+    LasagnaActivityLogElement.prototype.attributeChangedCallback = function (attr, oldValue, newValue) {
+        switch (attr) {
+            case 'date':
+                this.render();
+                break;
+            default:
+                break;
+        }
+    };
+    Object.defineProperty(LasagnaActivityLogElement.prototype, "date", {
+        /**
+         * Date of activities listed in this log
+         */
+        get: function () {
+            if (!this.hasAttribute('date'))
+                return new Date();
+            return new Date(this.getAttribute('date'));
+        },
+        set: function (value) {
+            this.setAttribute('date', value.toISOString());
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Complete construction of DOM element
+     */
+    LasagnaActivityLogElement.prototype.connectedCallback = function () {
+        this.attachShadow({ mode: 'open' });
+        this.render();
+    };
+    LasagnaActivityLogElement.prototype.render = function () {
+        diffhtml_1.innerHTML(this.shadowRoot, "\n      <style>\n        .c-activity-log__title {\n          font-size: 1.5rem;\n          font-weight: 600;\n        }\n        .c-activity-log__headings {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__headings > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid transparent;\n          padding: 0.25rem;\n          font-weight: 500;\n        }\n        .c-activity-log__task-heading {\n          width: calc(100% - 26.5rem);\n          text-align: left;\n        }\n        .c-activity-log__time-heading,\n        .c-activity-log__duration-heading {\n          width: 7.5rem;\n          text-align: center;\n        }\n        .c-activity-log__activity {\n          display: flex;\n          flex-direction: row;\n        }\n        .c-activity-log__activity > * {\n          display: inline-block;\n          margin: 0.1rem 0.25rem;\n          border-bottom: 1px solid black;\n          padding: 0 0.25rem;\n        }\n        .c-activity-log__activity > * > input {\n          margin: 0;\n          width: 100%;\n          height: 1.1rem;\n          border: none;\n          padding: 0;\n          font-size: 1rem;\n        }\n        .c-activity-log__activity-task {\n          width: calc(100% - 26.5rem);\n        }\n        .c-activity-log__activity-task > input {\n          text-align: left;\n        }\n        .c-activity-log__activity-time,\n        .c-activity-log__activity-duration {\n          width: calc(7.5rem);\n        }\n        .c-activity-log__activity-time > input,\n        .c-activity-log__activity-duration > input {\n          text-align: center;\n        }\n      </style>\n      <section>\n        <header>\n          <h1 class=\"c-activity-log__title\">Activity Log for " + this.date.toLocaleDateString(LOCALES, DATE_STRING_OPTIONS) + "</h1>\n          <div class=\"c-activity-log__headings\">\n            <span class=\"c-activity-log__task-heading\">Task</span>\n            <span class=\"c-activity-log__time-heading\">Started At</span>\n            <span class=\"c-activity-log__time-heading\">Stopped At</span>\n            <span class=\"c-activity-log__duration-heading\">Duration</span>\n          </div>\n        </header>\n        <div class=\"c-activity-log__activities\">\n          " + this.renderActivities([]) + "\n        </div>\n      </section>\n    ");
+    };
+    LasagnaActivityLogElement.prototype.renderActivities = function (activities) {
+        var elements = activities.reduce(function (acc, activity) { return acc + "<lasagna-activity-log-activity activity=\"\"></lasagna-activity-log-activity>"; }, '');
+        //const elements = activities.reduce((acc, activity) => `${acc}${this.renderActivity(activity)}`, '');
+        return elements + "<lasagna-activity-log-activity></lasagna-activity-log-activity>";
+        //return `${elements}${this.renderActivity({task: '', started: null, stopped: null})}`;
+    };
+    LasagnaActivityLogElement.prototype.renderActivity = function (activity) {
+        return "\n      <form class=\"c-activity-log__activity\">\n        <label class=\"c-activity-log__activity-task\">\n          <input type=\"text\" value=\"" + activity.task + "\" placeholder=\"Task name\">\n        </label>\n        <label class=\"c-activity-log__activity-time\">\n          <input type=\"time\" value=\"" + activity.started + "\">\n        </label>\n        <label class=\"c-activity-log__activity-time\">\n          <input type=\"time\" value=\"" + activity.stopped + "\">\n        </label>\n        <label class=\"c-activity-log__activity-duration\">\n          <input type=\"text\" value=\"" + generateDuration(activity.started, activity.stopped) + "\">\n        </label>\n      </form>\n    ";
+    };
+    return LasagnaActivityLogElement;
+}(HTMLElement));
+exports.default = LasagnaActivityLogElement;
+
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var diffhtml_1 = __webpack_require__(0);
+function formatDuration(duration) {
+    function pad(source, length) {
+        if (source.length >= length)
+            return source;
+        return pad("0" + source, length);
+    }
+    var hours = Math.floor(duration / 3600);
+    var minutes = Math.floor(duration % 3600 / 60);
+    var seconds = duration % 60;
+    return hours + ":" + pad(minutes.toString(), 2) + ":" + pad(seconds.toString(), 2);
+}
+function computeDuration(started, stopped) {
+    function forceDate(date) {
+        return date ? (date instanceof Date ? date : new Date(date)) : new Date();
+    }
+    return Math.floor((forceDate(stopped).getTime() - forceDate(started).getTime()) / 1000);
+}
+var LasagnaActivityLogActivityElement = (function (_super) {
+    __extends(LasagnaActivityLogActivityElement, _super);
+    function LasagnaActivityLogActivityElement() {
+        return _super.call(this) || this;
+    }
+    Object.defineProperty(LasagnaActivityLogActivityElement, "observedAttributes", {
+        get: function () {
+            return ['activity'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LasagnaActivityLogActivityElement.prototype, "activity", {
+        get: function () {
+            if (!this.hasAttribute('activity'))
+                return { task: '', started: null, stopped: null };
+            return JSON.parse(this.getAttribute('activity'));
+        },
+        set: function (value) {
+            this.setAttribute('activity', JSON.stringify(value));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    LasagnaActivityLogActivityElement.prototype.connectedCallback = function () {
+        this.attachShadow({ mode: 'open' });
+        this.render();
+    };
+    LasagnaActivityLogActivityElement.prototype.attributeChangedCallback = function (name, oldValue, newValue) {
+        if (name === 'activity')
+            this.render();
+    };
+    LasagnaActivityLogActivityElement.prototype.render = function () {
+        var activity = this.activity;
+        console.log(this.shadowRoot.innerHTML);
+        diffhtml_1.innerHTML(this.shadowRoot, "\n      <style>\n      </style>\n      <form>\n        <!--<label>\n          <input type=\"text\" value=\"" + activity.task + "\" placeholder=\"Task name\">\n        </label>\n        <label>\n          <input type=\"time\" value=\"" + activity.stopped + "\">\n        </label>\n        <label>\n          <input type=\"time\" value=\"" + activity.stopped + "\">\n        </label>\n        <label>\n          <input type=\"text\" value=\"" + formatDuration(computeDuration(activity.started, activity.stopped)) + "\">\n        </label>-->\n      </form>\n    ");
+        console.log(this.shadowRoot.innerHTML);
+    };
+    return LasagnaActivityLogActivityElement;
+}(HTMLElement));
+exports.default = LasagnaActivityLogActivityElement;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 var g;
@@ -2871,13 +2951,13 @@ module.exports = g;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var LasagnaActivityLogElement_1 = __webpack_require__(0);
+var LasagnaActivityLogElement_1 = __webpack_require__(1);
 /**
  * Implement custom elements
  */
