@@ -1,7 +1,7 @@
 import { ActivityData } from '../interfaces/ActivityData';
 import LasagnaActivityLogActivityElement from './LasagnaActivityLogActivityElement';
 
-import { innerHTML } from 'diffhtml';
+import { html, innerHTML } from 'diffhtml';
 
 (<any>window).customElements.define('lasagna-activity-log-activity', LasagnaActivityLogActivityElement);
 
@@ -81,7 +81,7 @@ export default class LasagnaActivityLogElement extends HTMLElement {
   }
 
   render() {
-    innerHTML(this.shadowRoot, `
+    innerHTML(this.shadowRoot, html`
       <style>
         .c-activity-log__title {
           font-size: 1.5rem;
@@ -157,10 +157,10 @@ export default class LasagnaActivityLogElement extends HTMLElement {
     `);
   }
 
-  renderActivities(activities: ActivityData[]): String {
+  renderActivities(activities: ActivityData[]): Object | Object[] {
     const elements = activities.reduce((acc, activity) => `${acc}<lasagna-activity-log-activity activity=""></lasagna-activity-log-activity>`, '');
     //const elements = activities.reduce((acc, activity) => `${acc}${this.renderActivity(activity)}`, '');
-    return `${elements}<lasagna-activity-log-activity></lasagna-activity-log-activity>`;
+    return html`${elements}<lasagna-activity-log-activity></lasagna-activity-log-activity>`;
     //return `${elements}${this.renderActivity({task: '', started: null, stopped: null})}`;
   }
 

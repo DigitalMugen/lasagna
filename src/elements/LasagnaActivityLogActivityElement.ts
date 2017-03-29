@@ -50,7 +50,7 @@ export default class LasagnaActivityLogActivityElement extends HTMLElement {
   render() {
     const activity = this.activity;
     console.log(this.shadowRoot.innerHTML);
-    innerHTML(this.shadowRoot, `
+    innerHTML(this.shadowRoot, html`
       <style>
       </style>
       <form>

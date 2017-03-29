@@ -1,5 +1,5 @@
 declare module 'diffhtml' {
-  export function html(markup: String): Object | Object[];
+  export function html(markup: String | TemplateStringsArray, ...placeholders: any[]): Object | Object[];
   export function release(node: Node): undefined;
   export function createElement(nodeName: String, attributes?: Object, childNodes?: Object | Object[]): Object;
   export function createAttribute(node: Node): Object;
