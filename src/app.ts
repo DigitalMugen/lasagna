@@ -1,5 +1,3 @@
-import { ActivityData } from './interfaces/ActivityData';
-
 import LasagnaActivityLogElement from './elements/LasagnaActivityLogElement';
 
 /**
@@ -11,9 +9,7 @@ import LasagnaActivityLogElement from './elements/LasagnaActivityLogElement';
  * Start app
  */
 window.addEventListener('load', () => {
-  const today = new Date();
-  const activities: ActivityData[] = [];
+  //const today = new Date();
   const activityLog = document.querySelector('lasagna-activity-log');
-  activityLog.setAttribute('date', today.toISOString().substr(0, 10));
-  activityLog.setAttribute('activities', JSON.stringify(activities));
+  //activityLog.setAttribute('date', today.toISOString().substr(0, 10));
 });
